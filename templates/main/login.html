@@ -1,0 +1,51 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Login{% endblock %}
+{% block page_name %}auth{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+    <section class="auth-shell glass-panel">
+        <div class="auth-brand-panel">
+            <p class="eyebrow">Tripora</p>
+            <h1>Travel planning that feels connected from search to booking.</h1>
+            <p class="muted-copy">Log in to continue with bookings, invoices, assistant support, planner tools, and saved travel decisions.</p>
+            <div class="auth-feature-list">
+                <div class="auth-feature-item">
+                    <strong>Smart Search</strong>
+                    <span>Compare routes, budget caps, and transport types in one flow.</span>
+                </div>
+                <div class="auth-feature-item">
+                    <strong>Unified Booking</strong>
+                    <span>Move from ticket preview to payment and invoice without friction.</span>
+                </div>
+                <div class="auth-feature-item">
+                    <strong>Travel Assistant</strong>
+                    <span>Ask for destination ideas, budget guidance, and short trip suggestions.</span>
+                </div>
+            </div>
+        </div>
+        <section class="auth-card">
+            <div class="auth-form-header">
+                <p class="eyebrow">Welcome Back</p>
+                <h2>Login to Tripora</h2>
+                <p class="muted-copy">Access your dashboard, plan new journeys, and manage your bookings in one place.</p>
+            </div>
+            <form method="post" class="auth-form" id="loginForm" data-auth-form="login" novalidate>
+                {% csrf_token %}
+                <label>Username
+                    <input type="text" name="username" id="loginUsername" placeholder="At least 5 letters only" required>
+                    <span class="field-error" data-auth-error="username"></span>
+                </label>
+                <label>Password
+                    <input type="password" name="password" id="loginPassword" placeholder="8+ chars, uppercase, lowercase, special char" required>
+                    <span class="field-error" data-auth-error="password"></span>
+                </label>
+                <div class="auth-inline-message" data-auth-form-error></div>
+                <button type="submit" class="primary-button">Login</button>
+            </form>
+            <p class="switch-link">New here? <a href="{% url 'signup' %}">Create an account</a></p>
+        </section>
+    </section>
+</main>
+{% endblock %}

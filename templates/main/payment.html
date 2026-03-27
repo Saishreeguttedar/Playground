@@ -1,0 +1,97 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Payment{% endblock %}
+{% block page_name %}payment{% endblock %}
+
+{% block content %}
+<main class="booking-layout">
+    <section class="booking-summary glass-panel">
+        <div class="travel-card-body">
+            <p class="eyebrow">Payment Summary</p>
+            <h1>{{ booking.source }} to {{ booking.destination }}</h1>
+            <div class="summary-points">
+                <div><strong>Booking ID</strong><span>{{ booking.booking_id }}</span></div>
+                <div><strong>Traveler</strong><span>{{ booking.traveler_name }}</span></div>
+                <div><strong>Passengers</strong><span>{{ booking.passengers }}</span></div>
+                <div><strong>Total</strong><span>₹ {{ booking.price }}</span></div>
+            </div>
+            <div class="control-card payment-note">
+                <span class="pill-label">Easy Checkout</span>
+                <p>Choose your payment method, fill the relevant details, and confirm payment in one simple step.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="booking-form-card glass-panel">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Secure Checkout</p>
+                <h2>Choose a payment method</h2>
+            </div>
+        </div>
+        <form method="post" class="payment-form" id="paymentForm">
+            {% csrf_token %}
+            <div class="payment-tabs">
+                <label class="payment-tab active">
+                    <input type="radio" name="payment_method" value="Card" checked>
+                    <span>Card</span>
+                </label>
+                <label class="payment-tab">
+                    <input type="radio" name="payment_method" value="UPI">
+                    <span>UPI</span>
+                </label>
+                <label class="payment-tab">
+                    <input type="radio" name="payment_method" value="Net Banking">
+                    <span>Net Banking</span>
+                </label>
+            </div>
+            <div class="payment-fields" id="paymentFields">
+                <div class="payment-method-panel is-visible" data-payment-panel="Card">
+                    <div class="payment-method-grid">
+                        <label>Card Number
+                            <input type="text" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456" required>
+                        </label>
+                        <label>Name on Card
+                            <input type="text" placeholder="Cardholder name" required>
+                        </label>
+                        <div class="payment-inline-grid">
+                            <label>Expiry Date
+                                <input type="text" inputmode="numeric" maxlength="5" placeholder="MM/YY" required>
+                            </label>
+                            <label>CVV
+                                <input type="password" inputmode="numeric" maxlength="3" placeholder="123" required>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-method-panel" data-payment-panel="UPI" hidden>
+                    <div class="payment-method-grid">
+                        <label>UPI ID
+                            <input type="text" placeholder="name@upi">
+                        </label>
+                        <label>Account Holder Name
+                            <input type="text" placeholder="Traveler name">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="payment-method-panel" data-payment-panel="Net Banking" hidden>
+                    <div class="payment-method-grid">
+                        <label>Bank Name
+                            <input type="text" placeholder="Enter bank name">
+                        </label>
+                        <label>Account Holder Name
+                            <input type="text" placeholder="Traveler name">
+                        </label>
+                        <label>Reference Number
+                            <input type="text" placeholder="Reference number">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="primary-button">Pay ₹ {{ booking.price }}</button>
+        </form>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Booking History{% endblock %}
+{% block page_name %}history{% endblock %}
+
+{% block content %}
+<main class="dashboard-page">
+    <section class="glass-panel dashboard-block">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Bookings</p>
+                <h1>Your travel tickets and invoices</h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="history-list">
+        {% for booking in bookings %}
+            <article class="history-card glass-panel ticket-history-card">
+                <div>
+                    <p class="eyebrow">{{ booking.booking_id }}</p>
+                    <h3>{{ booking.source }} to {{ booking.destination }}</h3>
+                    <p>{{ booking.date|date:"d M Y" }} • {{ booking.passengers }} passenger{{ booking.passengers|pluralize }}</p>
+                    <p>{% if booking.trip_id and "flight" in booking.trip_id %}Boarding pass ready{% else %}Travel ticket ready{% endif %}</p>
+                </div>
+                <div class="history-actions">
+                    <span class="status-pill {{ booking.status }}">{{ booking.status|title }}</span>
+                    <strong>₹ {{ booking.price }}</strong>
+                    <a href="{% url 'invoice_page' booking.id %}" class="ghost-button">Invoice</a>
+                    {% if booking.status == "confirmed" %}
+                        <form method="post" action="{% url 'cancel_booking' booking.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="danger-button">Cancel Booking</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </article>
+        {% empty %}
+            <article class="empty-state glass-panel">
+                <h3>No bookings yet</h3>
+                <p>Your tickets, invoices, and current bookings will appear here.</p>
+                <a href="{% url 'dashboard' %}" class="primary-button">Back to Dashboard</a>
+            </article>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}

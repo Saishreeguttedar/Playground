@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tripora | Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body data-page="signup">
+  <main class="auth-layout">
+    <section class="auth-showcase signup-showcase">
+      <div class="glass-panel auth-blurb">
+        <p class="eyebrow">Create your account</p>
+        <h1>Plan, book, and manage every journey with Tripora.</h1>
+        <p>Save recent searches, split costs, compare destinations, and access invoices instantly.</p>
+      </div>
+    </section>
+    <section class="auth-panel-wrap">
+      <div class="glass-panel auth-panel">
+        <div class="brand">Tripora ✈️</div>
+        <h2>Sign Up</h2>
+        <form id="signupForm" class="stack-form">
+          <label>
+            <span>Username</span>
+            <input type="text" name="username" placeholder="Your name" required>
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" placeholder="traveler@example.com" required>
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" name="password" minlength="6" placeholder="Create password" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Create Account</button>
+        </form>
+        <p class="form-alt">Already have an account? <a href="login.html">Login here</a></p>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script src="static/js/data.js"></script>
+  <script src="static/js/app.js"></script>
+</body>
+</html>

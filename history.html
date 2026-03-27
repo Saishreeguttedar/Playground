@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tripora | Booking History</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body data-page="history">
+  <div class="page-shell">
+    <header class="main-nav glass-panel">
+      <a class="brand" href="dashboard.html">Tripora ✈️</a>
+      <nav class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="history.html" class="active">Bookings</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" type="button" data-theme-toggle>Dark Mode</button>
+      </div>
+    </header>
+
+    <section class="content-section">
+      <div class="section-head">
+        <h1>Booking History</h1>
+        <p>Review your confirmed journeys or cancel any upcoming booking.</p>
+      </div>
+      <div id="bookingHistory" class="history-list"></div>
+    </section>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="static/js/data.js"></script>
+  <script src="static/js/app.js"></script>
+</body>
+</html>

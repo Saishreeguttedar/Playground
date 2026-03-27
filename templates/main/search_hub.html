@@ -1,0 +1,60 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Search Trips{% endblock %}
+{% block page_name %}search-hub{% endblock %}
+
+{% block content %}
+<main class="dashboard-page">
+    <section class="search-hub-page" id="search-tabs" data-trip-catalog="{{ trip_catalog_json|escapejs }}">
+        <section class="search-hub-card glass-panel search-minimal-card">
+            <div class="search-minimal-topbar">
+                <div class="search-minimal-header">
+                    <p class="eyebrow">Search Trips</p>
+                    <h1>Plan Your Journey</h1>
+                    <p class="muted-copy">Choose your route, date, budget, and transport type to find matching trips.</p>
+                </div>
+                <a href="{% url 'dashboard' %}" class="ghost-button search-dashboard-button">Back to Dashboard</a>
+            </div>
+
+            <form method="get" action="{% url 'search_results' %}" class="search-hub-form search-minimal-form" id="searchHubForm" novalidate>
+                <input type="hidden" name="mode" id="searchMode" value="Flight">
+
+                <div class="search-transport-row" id="modeSwitcher">
+                    <button type="button" class="transport-toggle active" data-mode="Flight" aria-pressed="true">Flight</button>
+                    <button type="button" class="transport-toggle" data-mode="Train" aria-pressed="false">Train</button>
+                    <button type="button" class="transport-toggle" data-mode="Bus" aria-pressed="false">Bus</button>
+                </div>
+
+                <div class="search-minimal-grid">
+                    <label class="search-input-card">
+                        <span class="mmt-field-label">From</span>
+                        <input type="text" name="source" id="searchSource" placeholder="Enter departure city" required>
+                        <span class="field-error" data-error-for="source"></span>
+                    </label>
+                    <label class="search-input-card">
+                        <span class="mmt-field-label">To</span>
+                        <input type="text" name="destination" id="searchDestination" placeholder="Enter destination city" required>
+                        <span class="field-error" data-error-for="destination"></span>
+                    </label>
+                    <label class="search-input-card">
+                        <span class="mmt-field-label">Departure Date</span>
+                        <input type="date" name="date" id="searchDate" value="{{ default_date }}" required>
+                        <span class="field-error" data-error-for="date"></span>
+                    </label>
+                    <label class="search-input-card">
+                        <span class="mmt-field-label">Budget Cap</span>
+                        <input type="number" name="max_price" id="searchBudget" placeholder="Example: 8000" min="500" max="1000000" required>
+                        <span class="field-error" data-error-for="budget"></span>
+                    </label>
+                </div>
+
+                <div class="search-form-errors" id="searchFormErrors" aria-live="polite"></div>
+
+                <div class="search-minimal-actions">
+                    <button type="submit" class="primary-button search-submit-button" id="searchSubmitButton" disabled>Search Trips</button>
+                </div>
+            </form>
+        </section>
+    </section>
+</main>
+{% endblock %}

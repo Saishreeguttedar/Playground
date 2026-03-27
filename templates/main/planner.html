@@ -1,0 +1,91 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Planner{% endblock %}
+{% block page_name %}planner{% endblock %}
+
+{% block content %}
+<main class="dashboard-page">
+    <section class="planner-redesign-grid">
+        <section class="planner-panel glass-panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Travel Plan</p>
+                    <h1>Build a smarter itinerary</h1>
+                    <p class="muted-copy">Choose days, budget, and travel style to get a usable day-wise plan with estimated cost, transport, and stay recommendation.</p>
+                </div>
+            </div>
+            <form class="planner-form" id="plannerForm" method="post">
+                {% csrf_token %}
+                <label>Number of Days
+                    <input type="number" name="days" min="1" max="15" value="{{ planner_days }}" required>
+                </label>
+                <label>Budget (₹)
+                    <input type="number" name="budget" min="1000" value="{{ planner_budget }}" required>
+                </label>
+                <label>Travel Type
+                    <select name="travel_style">
+                        <option value="budget" {% if planner_travel_style == "budget" %}selected{% endif %}>Budget</option>
+                        <option value="luxury" {% if planner_travel_style == "luxury" %}selected{% endif %}>Luxury</option>
+                        <option value="adventure" {% if planner_travel_style == "adventure" %}selected{% endif %}>Adventure</option>
+                    </select>
+                </label>
+                <button type="submit" class="primary-button">Generate Travel Plan</button>
+            </form>
+        </section>
+
+        <section class="glass-panel planner-side-summary">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Planner Output</p>
+                    <h2>Suggested route snapshot</h2>
+                </div>
+            </div>
+            {% if planner_suggestion %}
+                <article class="control-card">
+                    <span class="pill-label">{{ planner_outline.style|default:"Budget" }}</span>
+                    <h3>{{ planner_suggestion.trip.source }} to {{ planner_suggestion.trip.destination }}</h3>
+                    <p><strong>Best fit:</strong> {{ planner_suggestion.trip.tag }} for {{ planner_days }} day{{ planner_days|pluralize }} planning.</p>
+                    <p>Transport: {{ planner_outline.transport }} • Hotel: {{ planner_outline.hotel }}</p>
+                    <p>Estimated cost: ₹ {{ planner_outline.estimated_cost }}</p>
+                </article>
+            {% else %}
+                <article class="control-card">
+                    <span class="pill-label">Ready</span>
+                    <h3>Waiting for your trip preferences</h3>
+                    <p>Generate a plan to see itinerary suggestions here.</p>
+                </article>
+            {% endif %}
+        </section>
+    </section>
+
+    <section class="glass-panel dashboard-block">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Day-wise Itinerary</p>
+                <h2>Your generated travel outline</h2>
+            </div>
+        </div>
+        {% if planner_outline %}
+            <div class="itinerary-output">
+                {% for item in planner_outline.days %}
+                    <article class="itinerary-day-card glass-panel">
+                        <div class="itinerary-day-badge">Day {{ item.day }}</div>
+                        <div class="itinerary-day-header">
+                            <span class="itinerary-icon">🧭</span>
+                            <div>
+                                <h3>{{ item.headline }}</h3>
+                                <p class="muted-copy">{{ item.details }}</p>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>Generate a planner output</h3>
+                <p>Your itinerary, estimated cost, transport, and hotel recommendation will appear here.</p>
+            </div>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

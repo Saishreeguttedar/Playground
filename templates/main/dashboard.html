@@ -1,0 +1,198 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Dashboard{% endblock %}
+{% block page_name %}dashboard{% endblock %}
+
+{% block content %}
+<main class="dashboard-page dashboard-balanced-page">
+    <section class="dashboard-balanced-hero glass-panel" style="background-image: linear-gradient(120deg, rgba(10, 26, 52, 0.78), rgba(10, 26, 52, 0.24)), url('{{ hero_image }}');">
+        <div class="dashboard-balanced-hero-left">
+            <div>
+                <p class="eyebrow">{{ greeting }}</p>
+                <h1>Welcome, {{ user_display_name }}</h1>
+                <p class="dashboard-balanced-subtitle">Book flights, discover stays, and plan your next trip from a cleaner dashboard built for quick scanning.</p>
+            </div>
+            <div class="dashboard-balanced-actions">
+                <a href="{% url 'search_hub' %}" class="primary-button">Search Trips</a>
+                <a href="{% url 'booking_history' %}" class="ghost-button dashboard-ghost-action">My Bookings</a>
+            </div>
+        </div>
+        <aside class="dashboard-balanced-snapshot glass-panel">
+            <p class="eyebrow">Quick Snapshot</p>
+            <div class="dashboard-balanced-snapshot-grid">
+                <div class="dashboard-balanced-snapshot-item">
+                    <strong>{{ confirmed_count }}</strong>
+                    <span>Confirmed Trips</span>
+                </div>
+                <div class="dashboard-balanced-snapshot-item">
+                    <strong>{{ booking_count }}</strong>
+                    <span>Total Bookings</span>
+                </div>
+                <div class="dashboard-balanced-snapshot-item">
+                    <strong>{{ latest_booking.destination|default:"Ready to Explore" }}</strong>
+                    <span>Current Focus</span>
+                </div>
+            </div>
+        </aside>
+    </section>
+
+    <section class="dashboard-balanced-info-grid">
+        <section class="dashboard-section glass-panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Offers</p>
+                    <h2>Useful offers for real bookings</h2>
+                </div>
+            </div>
+            <div class="dashboard-balanced-offers">
+                {% for offer in offers %}
+                    <article class="dashboard-balanced-card dashboard-offer-card">
+                        <span class="pill-label">{{ offer.discount }}</span>
+                        <h3>{{ offer.title }}</h3>
+                        <p>{{ offer.description }}</p>
+                        <div class="dashboard-card-footer">
+                            <span class="muted-copy">{{ offer.code }}</span>
+                            <button type="button" class="primary-button copy-offer-button" data-offer-code="{{ offer.code }}">Apply Offer</button>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="dashboard-section glass-panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Quick Info</p>
+                    <h2>Useful context before you book</h2>
+                </div>
+            </div>
+            <div class="dashboard-balanced-mini-stack">
+                <article class="dashboard-balanced-card">
+                    <span class="pill-label">Popular Route</span>
+                    <h3>{{ cheapest_trip.source }} to {{ cheapest_trip.destination }}</h3>
+                    <p>{{ cheapest_trip.mode }} • ₹ {{ cheapest_trip.price }}</p>
+                </article>
+                <article class="dashboard-balanced-card">
+                    <span class="pill-label">Current Focus</span>
+                    <h3>{{ latest_booking.destination|default:"Plan a fresh trip" }}</h3>
+                    <p>Jump into search or use the planner for smarter route suggestions.</p>
+                </article>
+            </div>
+        </section>
+    </section>
+
+    <section class="dashboard-section glass-panel">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Services</p>
+                <h2>Core travel tools</h2>
+            </div>
+        </div>
+        <div class="dashboard-balanced-services">
+            <a href="{% url 'search_hub' %}" class="service-panel glass-panel">
+                <span class="pill-label">Flights</span>
+                <h3>Search Routes</h3>
+                <p>Compare routes, budgets, dates, and transport types quickly.</p>
+            </a>
+            <a href="{% url 'explore_page' %}" class="service-panel glass-panel">
+                <span class="pill-label">Hotels</span>
+                <h3>Browse Stays</h3>
+                <p>See premium, practical, and short-stay hotel ideas.</p>
+            </a>
+            <a href="{% url 'explore_page' %}" class="service-panel glass-panel">
+                <span class="pill-label">Holidays</span>
+                <h3>Package Escapes</h3>
+                <p>Explore 2 to 5 day getaway ideas with cleaner previews.</p>
+            </a>
+        </div>
+    </section>
+
+    <section class="dashboard-section glass-panel">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Flights</p>
+                <h2>Popular airline options</h2>
+            </div>
+        </div>
+        <div class="dashboard-balanced-flights">
+            {% for item in airline_options %}
+                <article class="dashboard-balanced-card dashboard-flight-card">
+                    <h3>{{ item.name }}</h3>
+                    <div class="dashboard-flight-meta">
+                        <span>{{ item.time }}</span>
+                        <span>{{ item.duration }}</span>
+                    </div>
+                    <strong>₹ {{ item.price }}</strong>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="dashboard-grid-split">
+        <section class="dashboard-section glass-panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Recommended Stays</p>
+                    <h2>Comfortable places to stay</h2>
+                </div>
+            </div>
+            <div class="dashboard-balanced-stays">
+                {% for hotel in hotel_options %}
+                    <article class="travel-card glass-panel dashboard-stay-card">
+                        <img src="{{ hotel.image }}" alt="{{ hotel.name }}">
+                        <div class="travel-card-body">
+                            <div class="card-content-block">
+                                <h3>{{ hotel.name }}</h3>
+                                <div class="card-meta">
+                                    <span class="rating-badge">★ {{ hotel.rating }}</span>
+                                    <strong>₹ {{ hotel.price }}/night</strong>
+                                </div>
+                                <p class="muted-copy">Recommended premium stay with quick access to the booking flow.</p>
+                            </div>
+                            <a href="{% url 'search_hub' %}" class="book-btn full-width dashboard-stay-button">Book Now</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="dashboard-section glass-panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Getaways</p>
+                    <h2>Short and medium holiday ideas</h2>
+                </div>
+            </div>
+            <div class="dashboard-balanced-getaways">
+                {% for package in holiday_packages %}
+                    <article class="dashboard-getaway-card">
+                        <span class="pill-label">{{ package.days }}</span>
+                        <h3>{{ package.title }}</h3>
+                        <p>{{ package.preview }}</p>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    </section>
+
+    <section class="dashboard-section glass-panel">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Travel Plan</p>
+                <h2>Smart suggestions based on how you want to travel</h2>
+            </div>
+        </div>
+        <div class="dashboard-balanced-plans">
+            {% for plan in smart_plans %}
+                <article class="dashboard-plan-card">
+                    <div class="dashboard-plan-icon">
+                        {% if plan.label == "Budget Smart" %}💸{% elif plan.label == "Long Weekend" %}🧳{% else %}✨{% endif %}
+                    </div>
+                    <h3>{{ plan.label }}</h3>
+                    <p>{{ plan.copy }}</p>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

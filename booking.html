@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tripora | Booking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body data-page="booking">
+  <div class="page-shell">
+    <header class="main-nav glass-panel">
+      <a class="brand" href="dashboard.html">Tripora ✈️</a>
+      <nav class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="search.html">Results</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" type="button" data-theme-toggle>Dark Mode</button>
+      </div>
+    </header>
+
+    <main class="two-col-layout">
+      <section class="glass-panel booking-summary" id="bookingSummary"></section>
+      <section class="glass-panel booking-form-panel">
+        <div class="section-head">
+          <h2>Traveler Details</h2>
+          <p>Confirm the trip and head to payment.</p>
+        </div>
+        <form id="bookingForm" class="stack-form">
+          <label>
+            <span>Primary Traveler Name</span>
+            <input type="text" name="travelerName" placeholder="Enter full name" required>
+          </label>
+          <label>
+            <span>Passengers</span>
+            <input type="number" name="passengers" min="1" value="1" required>
+          </label>
+          <label>
+            <span>Contact Email</span>
+            <input type="email" name="contactEmail" placeholder="traveler@example.com" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Confirm & Continue</button>
+        </form>
+      </section>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="static/js/data.js"></script>
+  <script src="static/js/app.js"></script>
+</body>
+</html>

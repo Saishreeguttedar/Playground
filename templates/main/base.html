@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tripora{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body data-page="{% block page_name %}generic{% endblock %}">
+    <div class="page-shell">
+        {% if request.user.is_authenticated and request.resolver_match.url_name != 'landing' and request.resolver_match.url_name != 'loader' and request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'signup' %}
+            <header class="app-header glass-panel">
+                <a href="{% url 'dashboard' %}" class="brand">Tripora <span>✈️</span></a>
+                <nav class="nav-links">
+                    <a href="{% url 'search_hub' %}">Search</a>
+                    <a href="{% url 'explore_page' %}">Explore</a>
+                    <a href="{% url 'planner_page' %}">Planner</a>
+                    <a href="{% url 'assistant_page' %}">Assistant</a>
+                    <a href="{% url 'booking_history' %}">Bookings</a>
+                </nav>
+                <div class="header-actions">
+                    <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+                    <a href="{% url 'logout' %}" class="ghost-button">Logout</a>
+                </div>
+            </header>
+        {% endif %}
+
+        {% if messages %}
+            <section class="message-stack">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </section>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{% static 'js/app.js' %}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

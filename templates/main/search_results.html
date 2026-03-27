@@ -1,0 +1,98 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Search Results{% endblock %}
+{% block page_name %}results{% endblock %}
+
+{% block content %}
+<main class="dashboard-page">
+    <section class="search-section glass-panel">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Search Results</p>
+                <h1>{{ source|default:"Any city" }} to {{ destination|default:"Any destination" }}</h1>
+                <p class="muted-copy">Travel date: {{ travel_date }}</p>
+            </div>
+        </div>
+        <form method="get" action="{% url 'search_results' %}" class="search-form search-form-card results-filter-card" data-recent-search="true">
+            <div class="results-filter-grid">
+                <label>From
+                    <input type="text" name="source" value="{{ source }}" placeholder="Source city">
+                </label>
+                <label>To
+                    <input type="text" name="destination" value="{{ destination }}" placeholder="Destination city">
+                </label>
+                <label>Date
+                    <input type="date" name="date" value="{{ travel_date }}">
+                </label>
+                <label>Mode
+                    <select name="mode">
+                        <option value="" {% if not mode %}selected{% endif %}>All</option>
+                        <option value="Flight" {% if mode == "Flight" %}selected{% endif %}>Flight</option>
+                        <option value="Train" {% if mode == "Train" %}selected{% endif %}>Train</option>
+                        <option value="Bus" {% if mode == "Bus" %}selected{% endif %}>Bus</option>
+                    </select>
+                </label>
+                <label>Max Price
+                    <input type="number" name="max_price" value="{{ max_price }}" placeholder="10000">
+                </label>
+                <label>Min Rating
+                    <select name="min_rating">
+                        <option value="">Any</option>
+                        <option value="4.0" {% if min_rating == "4.0" %}selected{% endif %}>4.0+</option>
+                        <option value="4.3" {% if min_rating == "4.3" %}selected{% endif %}>4.3+</option>
+                        <option value="4.5" {% if min_rating == "4.5" %}selected{% endif %}>4.5+</option>
+                    </select>
+                </label>
+            </div>
+            <div class="search-submit-row results-submit-row">
+                <button type="submit" class="primary-button">Apply Filters</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="cards-section">
+        <div class="results-summary">
+            <h2>{{ results|length }} trip{{ results|length|pluralize }} found</h2>
+            <div class="results-summary-actions">
+                <a href="{% url 'search_hub' %}" class="ghost-button results-nav-button">Back to Search</a>
+                <a href="{% url 'dashboard' %}" class="ghost-button results-nav-button">Back to Dashboard</a>
+            </div>
+        </div>
+        {% if fallback_notice %}
+            <article class="message">
+                {{ fallback_notice }}
+            </article>
+        {% endif %}
+        <div class="result-list">
+            {% for trip in results %}
+                <article class="result-card glass-panel">
+                    <img src="{{ trip.image }}" alt="{{ trip.destination }}">
+                    <div class="result-content">
+                        <div class="card-topline">
+                            <span class="pill-label">{{ trip.tag }}</span>
+                            <span class="rating-badge">★ {{ trip.rating }}</span>
+                        </div>
+                        <h3>{{ trip.source }} to {{ trip.destination }}</h3>
+                        <p>{{ trip.description }}</p>
+                        <div class="result-facts">
+                            <span>{{ trip.mode }}</span>
+                            <span>{{ trip.duration }}</span>
+                            <span>{{ trip.offer }}</span>
+                        </div>
+                    </div>
+                    <div class="result-price">
+                        <strong>₹ {{ trip.price }}</strong>
+                        <p>per passenger</p>
+                        <a href="{% url 'booking_page' trip.id %}?date={{ travel_date }}" class="primary-button full-width">Book</a>
+                    </div>
+                </article>
+            {% empty %}
+                <article class="empty-state glass-panel">
+                    <h3>No trips matched these filters</h3>
+                    <p>Try widening your price range or removing one of the search constraints.</p>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

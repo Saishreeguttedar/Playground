@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tripora | Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body data-page="dashboard">
+  <div class="page-shell">
+    <header class="main-nav glass-panel">
+      <a class="brand" href="dashboard.html">Tripora ✈️</a>
+      <nav class="nav-links">
+        <a href="dashboard.html" class="active">Flights</a>
+        <a href="dashboard.html#hotels">Hotels</a>
+        <a href="dashboard.html#buses">Buses</a>
+        <a href="dashboard.html#trains">Trains</a>
+        <a href="history.html">Bookings</a>
+      </nav>
+      <div class="nav-actions">
+        <span id="navUser" class="nav-user"></span>
+        <button class="theme-toggle" type="button" data-theme-toggle>Dark Mode</button>
+        <button class="btn btn-secondary btn-sm" type="button" id="logoutBtn">Logout</button>
+      </div>
+    </header>
+
+    <main class="dashboard-grid">
+      <section class="hero-banner glass-panel">
+        <div>
+          <p class="eyebrow">MakeMyTrip-inspired dashboard</p>
+          <h1>Find your perfect route, stay, or getaway.</h1>
+          <p>Search across curated routes, unlock offers, and plan smarter with local tools built right into the page.</p>
+        </div>
+        <form id="searchForm" class="search-form">
+          <label>
+            <span>From</span>
+            <input type="text" name="from" placeholder="Bengaluru" required>
+          </label>
+          <label>
+            <span>To</span>
+            <input type="text" name="to" placeholder="Bali" required>
+          </label>
+          <label>
+            <span>Date</span>
+            <input type="date" name="date" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Search Trips</button>
+        </form>
+        <div class="recent-searches">
+          <div class="section-head compact">
+            <h3>Recent Searches</h3>
+          </div>
+          <div id="recentSearches" class="chip-list"></div>
+        </div>
+      </section>
+
+      <aside class="sidebar-stack">
+        <section class="glass-panel planner-panel">
+          <div class="section-head compact">
+            <h3>Trip Planner</h3>
+          </div>
+          <form id="plannerForm" class="stack-form compact-form">
+            <label>
+              <span>Budget (₹)</span>
+              <input type="number" name="budget" min="5000" placeholder="25000" required>
+            </label>
+            <label>
+              <span>Days</span>
+              <input type="number" name="days" min="1" placeholder="5" required>
+            </label>
+            <label>
+              <span>Mood</span>
+              <select name="mood">
+                <option value="beach">Beach</option>
+                <option value="city">City</option>
+                <option value="mountain">Mountain</option>
+                <option value="culture">Culture</option>
+              </select>
+            </label>
+            <button class="btn btn-secondary" type="submit">Suggest Plan</button>
+          </form>
+          <div id="plannerResult" class="info-card muted-card"></div>
+        </section>
+
+        <section class="glass-panel split-panel">
+          <div class="section-head compact">
+            <h3>Group Cost Split</h3>
+          </div>
+          <form id="splitForm" class="stack-form compact-form">
+            <label>
+              <span>Total Cost (₹)</span>
+              <input type="number" name="amount" min="1" placeholder="36000" required>
+            </label>
+            <label>
+              <span>People</span>
+              <input type="number" name="people" min="1" placeholder="4" required>
+            </label>
+            <button class="btn btn-secondary" type="submit">Calculate</button>
+          </form>
+          <div id="splitResult" class="info-card muted-card"></div>
+        </section>
+      </aside>
+    </main>
+
+    <section class="content-section">
+      <div class="section-head">
+        <h2>Popular Destinations</h2>
+        <p>Curated ideas with prices, ratings, and vivid stays.</p>
+      </div>
+      <div id="popularTrips" class="card-grid"></div>
+    </section>
+
+    <section class="content-section">
+      <div class="section-head">
+        <h2>Offers</h2>
+        <p>Limited-time holiday and flight savings.</p>
+      </div>
+      <div class="offer-grid">
+        <article class="offer-card glass-panel">
+          <p class="offer-tag">Flight Deal</p>
+          <h3>Up to 25% off on island routes</h3>
+          <p>Use code <strong>TRIPORA25</strong> for selected weekend departures.</p>
+        </article>
+        <article class="offer-card glass-panel">
+          <p class="offer-tag">Hotel Combo</p>
+          <h3>Free breakfast on 3+ night stays</h3>
+          <p>Bundle your trip and unlock premium property upgrades.</p>
+        </article>
+        <article class="offer-card glass-panel">
+          <p class="offer-tag">Train Saver</p>
+          <h3>Regional rail offers under ₹2,999</h3>
+          <p>Perfect for scenic domestic escapes and long-weekend plans.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="section-head">
+        <h2>Recommended Trips</h2>
+        <p>Handpicked journeys designed for comfort and wow factor.</p>
+      </div>
+      <div id="recommendedTrips" class="card-grid compact-grid"></div>
+    </section>
+  </div>
+
+  <button class="chatbot-toggle" id="chatToggle" type="button">AI Travel Help</button>
+  <section class="chatbot-panel glass-panel" id="chatPanel">
+    <div class="section-head compact">
+      <h3>Tripora Chatbot</h3>
+      <button class="ghost-btn" id="chatClose" type="button">Close</button>
+    </div>
+    <div id="chatMessages" class="chat-messages"></div>
+    <form id="chatForm" class="chat-form">
+      <input type="text" name="message" placeholder="Ask for budget, beach, family, honeymoon..." required>
+      <button class="btn btn-primary btn-sm" type="submit">Send</button>
+    </form>
+  </section>
+
+  <div id="toast" class="toast"></div>
+  <script src="static/js/data.js"></script>
+  <script src="static/js/app.js"></script>
+</body>
+</html>

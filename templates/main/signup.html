@@ -1,0 +1,63 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Signup{% endblock %}
+{% block page_name %}auth{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+    <section class="auth-shell glass-panel">
+        <div class="auth-brand-panel">
+            <p class="eyebrow">Create Account</p>
+            <h1>Join Tripora and keep every travel tool in one place.</h1>
+            <p class="muted-copy">Register once to unlock search, planner, assistant, payment, invoice, and booking history with a single clean workflow.</p>
+            <div class="auth-feature-list">
+                <div class="auth-feature-item">
+                    <strong>Route Search</strong>
+                    <span>Search routes with transport type, budget, and date-based validation.</span>
+                </div>
+                <div class="auth-feature-item">
+                    <strong>Trip Planner</strong>
+                    <span>Generate budget, luxury, or adventure style plans with day-wise output.</span>
+                </div>
+                <div class="auth-feature-item">
+                    <strong>Professional Booking Flow</strong>
+                    <span>Move through booking, payment, invoice, and history with a single account.</span>
+                </div>
+            </div>
+        </div>
+        <section class="auth-card">
+            <div class="auth-form-header">
+                <p class="eyebrow">Join Tripora</p>
+                <h2>Create your travel account</h2>
+                <p class="muted-copy">Sign up once and unlock bookings, invoices, saved travel ideas, and smarter trip planning tools.</p>
+            </div>
+            <form method="post" class="auth-form" id="signupForm" data-auth-form="signup" novalidate>
+                {% csrf_token %}
+                <label>Full Name
+                    <input type="text" name="full_name" id="signupFullName" placeholder="Enter your full name" required>
+                    <span class="field-error" data-auth-error="full_name"></span>
+                </label>
+                <label>Username
+                    <input type="text" name="username" id="signupUsername" placeholder="Letters only, minimum 5 characters" required>
+                    <span class="field-error" data-auth-error="username"></span>
+                </label>
+                <label>Email
+                    <input type="email" name="email" id="signupEmail" placeholder="Enter your email" required>
+                    <span class="field-error" data-auth-error="email"></span>
+                </label>
+                <label>Password
+                    <input type="password" name="password" id="signupPassword" placeholder="8+ chars, uppercase, lowercase, special char" required>
+                    <span class="field-error" data-auth-error="password"></span>
+                </label>
+                <label>Confirm Password
+                    <input type="password" name="confirm_password" id="signupConfirmPassword" placeholder="Repeat password" required>
+                    <span class="field-error" data-auth-error="confirm_password"></span>
+                </label>
+                <div class="auth-inline-message" data-auth-form-error></div>
+                <button type="submit" class="primary-button">Create Account</button>
+            </form>
+            <p class="switch-link">Already registered? <a href="{% url 'login' %}">Login here</a></p>
+        </section>
+    </section>
+</main>
+{% endblock %}

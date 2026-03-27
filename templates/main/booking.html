@@ -1,0 +1,91 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Booking{% endblock %}
+{% block page_name %}booking{% endblock %}
+
+{% block content %}
+<main class="booking-layout">
+    <section class="booking-summary glass-panel professional-ticket">
+        <img src="{{ trip.image }}" alt="{{ trip.destination }}">
+        <div class="travel-card-body">
+            <span class="pill-label">{{ trip.mode }}</span>
+            <h1>{{ trip.source }} to {{ trip.destination }}</h1>
+            <p>{{ trip.description }}</p>
+            <div class="ticket-frame">
+                <div class="ticket-frame-top">
+                    <strong>{% if trip.mode == "Flight" %}Boarding Pass Preview{% else %}Travel Ticket Preview{% endif %}</strong>
+                    <span>{{ travel_date }}</span>
+                </div>
+                <div class="ticket-frame-grid">
+                    <div><span>Route</span><strong>{{ trip.source }} → {{ trip.destination }}</strong></div>
+                    <div><span>Travel Type</span><strong>{{ trip.mode }}</strong></div>
+                    <div><span>Duration</span><strong>{{ trip.duration }}</strong></div>
+                    <div><span>Fare</span><strong>₹ {{ trip.price }}</strong></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="booking-form-card glass-panel">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Billing Summary</p>
+                <h2>Confirm your booking</h2>
+            </div>
+        </div>
+        <form method="post" class="booking-form">
+            {% csrf_token %}
+            <input type="hidden" name="date" value="{{ travel_date }}">
+            <label>Primary Traveler Name
+                <input
+                    type="text"
+                    name="traveler_name"
+                    id="travelerNameInput"
+                    placeholder="Enter traveler name"
+                    value="{{ initial_traveler_name }}"
+                    minlength="3"
+                    pattern="[A-Za-z ]+"
+                    required
+                >
+                <small class="field-error" id="travelerNameError"></small>
+            </label>
+            <label>Passengers
+                <input type="number" name="passengers" id="passengersInput" min="1" max="20" value="{{ initial_passengers }}" required>
+                <small class="field-error" id="passengersError"></small>
+            </label>
+            <div class="fare-box">
+                <div class="fare-breakdown">
+                    <div>
+                        <span>Base Fare</span>
+                        <strong id="baseFare" data-base-fare="{{ trip.price }}">₹ {{ pricing.base_total }}</strong>
+                    </div>
+                    <div>
+                        <span>GST (5%)</span>
+                        <strong id="gstFare">₹ {{ pricing.gst_amount }}</strong>
+                    </div>
+                    <div>
+                        <span>Convenience Fee</span>
+                        <strong id="feeFare">₹ {{ pricing.convenience_fee }}</strong>
+                    </div>
+                    <div>
+                        <span>Total Payable</span>
+                        <strong id="totalFare">₹ {{ pricing.total_amount }}</strong>
+                    </div>
+                </div>
+                <small>Base fare × passengers, plus GST and convenience fee.</small>
+            </div>
+            <div class="splitter-box">
+                <div class="splitter-header">
+                    <h3>Group Cost Split</h3>
+                    <span>Optional</span>
+                </div>
+                <label>Split between people
+                    <input type="number" id="splitCount" min="1" value="1">
+                </label>
+                <p>Each person pays <strong id="splitAmount">₹ {{ pricing.total_amount }}</strong></p>
+            </div>
+            <button type="submit" class="primary-button" id="bookingSubmitButton">Continue to Payment</button>
+        </form>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Explore{% endblock %}
+{% block page_name %}explore{% endblock %}
+
+{% block content %}
+<main class="dashboard-page dashboard-balanced-page">
+    <section class="dashboard-section glass-panel">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Explore</p>
+                <h1>Recommendations built for the next escape</h1>
+                <p class="muted-copy">Browse compact destination ideas first, then move to search when you are ready to compare routes.</p>
+            </div>
+            <a href="{% url 'search_hub' %}" class="primary-button">Go to Search</a>
+        </div>
+        <div class="explore-balanced-grid">
+            {% for trip in recommended_trips %}
+                <article class="travel-card glass-panel compact-travel-card">
+                    <img src="{{ trip.image }}" alt="{{ trip.destination }}">
+                    <div class="travel-card-body">
+                        <div class="card-content-block">
+                            <div class="card-topline">
+                                <span class="pill-label">{{ trip.tag }}</span>
+                            </div>
+                            <h3>{{ trip.destination }}</h3>
+                            <div class="card-meta">
+                                <span class="rating-badge">★ {{ trip.rating }}</span>
+                                <strong>₹ {{ trip.price }}</strong>
+                            </div>
+                            <p>{{ trip.description }}</p>
+                        </div>
+                        <a href="{% url 'booking_page' trip.id %}?date={{ default_date }}" class="book-btn full-width explore-open-button">Book Now</a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% for category in explore_categories %}
+        <section class="dashboard-section glass-panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">{{ category.title }}</p>
+                    <h2>{{ category.subtitle }}</h2>
+                </div>
+            </div>
+            <div class="explore-balanced-grid">
+                {% for trip in category.trips %}
+                    <article class="travel-card glass-panel compact-travel-card">
+                        <img src="{{ trip.image }}" alt="{{ trip.destination }}">
+                        <div class="travel-card-body">
+                            <div class="card-content-block">
+                                <div class="card-topline">
+                                    <span class="pill-label">{{ trip.mode }}</span>
+                                </div>
+                                <h3>{{ trip.source }} to {{ trip.destination }}</h3>
+                                <div class="card-meta">
+                                    <span class="rating-badge">★ {{ trip.rating }}</span>
+                                    <strong>₹ {{ trip.price }}</strong>
+                                </div>
+                                <p>{{ trip.description }}</p>
+                            </div>
+                            <a href="{% url 'booking_page' trip.id %}?date={{ default_date }}" class="book-btn full-width explore-open-button">Book Now</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endfor %}
+</main>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Assistant{% endblock %}
+{% block page_name %}assistant{% endblock %}
+
+{% block content %}
+<main class="dashboard-page dashboard-balanced-page">
+    <section class="assistant-balanced-layout">
+        <section class="chatbot-panel glass-panel" id="assistant">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Tripora Assistant</p>
+                    <h1>Ask for travel help</h1>
+                    <p class="muted-copy">Get destination suggestions, budget advice, and travel ideas without digging through multiple pages.</p>
+                </div>
+            </div>
+            <div class="quick-searches assistant-prompt-row">
+                <button type="button" class="quick-search-chip" data-chat-prompt="Suggest a budget trip">Budget trip</button>
+                <button type="button" class="quick-search-chip" data-chat-prompt="Suggest a luxury trip">Luxury trip</button>
+                <button type="button" class="quick-search-chip" data-chat-prompt="Suggest a family destination">Family destination</button>
+                <button type="button" class="quick-search-chip" data-chat-prompt="Suggest an adventure plan">Adventure</button>
+            </div>
+            <div class="chat-window" id="chatWindow">
+                <div class="chat-bubble bot">Tell me your travel budget, destination style, or trip duration, and I’ll suggest something useful.</div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator" hidden>Tripora Assistant is typing...</div>
+            <form class="chat-form" id="chatForm">
+                <input type="text" id="chatInput" placeholder="Example: Suggest a budget beach trip for 3 days" required>
+                <button type="submit" class="primary-button">Send</button>
+            </form>
+        </section>
+
+        <aside class="assistant-actions-panel glass-panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Quick Actions</p>
+                    <h2>Move from idea to action</h2>
+                </div>
+            </div>
+            <div class="assistant-actions-stack">
+                <article class="dashboard-balanced-card">
+                    <span class="pill-label">Search</span>
+                    <p>Open search and compare routes after the assistant gives you an idea.</p>
+                    <a href="{% url 'search_hub' %}" class="primary-button shortcut-button">Open Search</a>
+                </article>
+                <article class="dashboard-balanced-card">
+                    <span class="pill-label">Explore</span>
+                    <p>Browse destination cards and richer travel inspiration visually.</p>
+                    <a href="{% url 'explore_page' %}" class="primary-button shortcut-button">Open Explore</a>
+                </article>
+            </div>
+        </aside>
+    </section>
+</main>
+{% endblock %}

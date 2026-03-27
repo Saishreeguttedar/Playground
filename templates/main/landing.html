@@ -1,0 +1,16 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Your Journey Starts Here{% endblock %}
+{% block page_name %}landing{% endblock %}
+
+{% block content %}
+<main class="hero-page">
+    <section class="hero-content glass-panel">
+        <p class="eyebrow">Travel Booking Platform</p>
+        <h1>Tripora ✈️</h1>
+        <p class="hero-tagline">Your Journey Starts Here 🌍</p>
+        <p class="hero-copy">Plan flights, stays, and unforgettable escapes through a polished booking experience inspired by modern travel platforms.</p>
+        <a href="{% url 'loader' %}" class="primary-button large-button">Get Started</a>
+    </section>
+</main>
+{% endblock %}

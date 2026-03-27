@@ -1,0 +1,88 @@
+{% extends "main/base.html" %}
+
+{% block title %}Tripora | Invoice{% endblock %}
+{% block page_name %}invoice{% endblock %}
+
+{% block content %}
+<main class="invoice-page">
+    <section class="invoice-card glass-panel" id="invoiceCard">
+        <div class="invoice-header">
+            <div>
+                <p class="eyebrow">Booking Confirmed</p>
+                <h1>Tripora Travel Invoice</h1>
+                <p class="muted-copy invoice-subtitle">Professional booking confirmation for your travel record and print copy.</p>
+            </div>
+            <div class="invoice-badge">{{ booking.status|title }}</div>
+        </div>
+        <div class="invoice-top-strip">
+            <div class="invoice-brand-block">
+                <h2>Tripora ✈️</h2>
+                <span>Travel Booking Platform</span>
+            </div>
+            <div class="invoice-reference-block">
+                <div><span>Invoice Date</span><strong>{{ booking.created_at|date:"d M Y" }}</strong></div>
+                <div><span>Booking ID</span><strong>{{ booking.booking_id }}</strong></div>
+            </div>
+        </div>
+        <div class="invoice-section-grid">
+            <section class="invoice-section">
+                <h3>Passenger Details</h3>
+                <div class="invoice-grid">
+                    <div>
+                        <span>Booked By</span>
+                        <strong>{{ request.user.username }}</strong>
+                    </div>
+                    <div>
+                        <span>Traveler</span>
+                        <strong>{{ booking.traveler_name }}</strong>
+                    </div>
+                    <div>
+                        <span>Passengers</span>
+                        <strong>{{ booking.passengers }}</strong>
+                    </div>
+                    <div>
+                        <span>Payment Method</span>
+                        <strong>{{ booking.payment_method }}</strong>
+                    </div>
+                </div>
+            </section>
+            <section class="invoice-section">
+                <h3>Trip Details</h3>
+                <div class="invoice-grid">
+                    <div>
+                        <span>Trip</span>
+                        <strong>{{ booking.source }} to {{ booking.destination }}</strong>
+                    </div>
+                    <div>
+                        <span>Travel Date</span>
+                        <strong>{{ booking.date|date:"d M Y" }}</strong>
+                    </div>
+                    <div>
+                        <span>Category</span>
+                        <strong>{% if trip %}{{ trip.tag }}{% else %}Curated Route{% endif %}</strong>
+                    </div>
+                    <div>
+                        <span>Status</span>
+                        <strong>{{ booking.status|title }}</strong>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="invoice-total-strip">
+            <div>
+                <span>Total Paid</span>
+                <strong>₹ {{ booking.price }}</strong>
+            </div>
+            <div>
+                <span>Issued At</span>
+                <strong>{{ booking.created_at|date:"d M Y, h:i A" }}</strong>
+            </div>
+        </div>
+        <div class="invoice-actions">
+            <button class="primary-button" type="button" id="printInvoiceButton">Print Invoice</button>
+            <a href="{% url 'download_invoice_pdf' booking.id %}" class="ghost-button">Download PDF</a>
+            <a href="{% url 'booking_history' %}" class="ghost-button">View Booking History</a>
+        </div>
+    </section>
+</main>
+{% endblock %}
